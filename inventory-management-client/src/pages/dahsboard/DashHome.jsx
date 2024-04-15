@@ -136,6 +136,9 @@ const DashHome = () => {
                     Added a Product
                   </span>
                 </td>
+                <td className="py-2 px-4">
+                  <p className="text-[#37415]">2m ago</p>
+                </td>
                 <td className="py-2 px-4 ">
                   <button className="text-[#eef2ff] bg-[#4f46e5] hover:bg-[#4338ca] px-2 py-1 rounded-lg">
                     See Details
@@ -149,6 +152,9 @@ const DashHome = () => {
                     buy a product
                   </span>
                 </td>
+                <td className="py-2 px-4">
+                  <p className="text-[#37415]">6m ago</p>
+                </td>
                 <td className="py-2 px-4 ">
                   <button className="text-[#eef2ff] bg-[#4f46e5] hover:bg-[#4338ca] px-2 py-1 rounded-lg">
                     See Details
@@ -162,6 +168,9 @@ const DashHome = () => {
                     Added a Product
                   </span>
                 </td>
+                <td className="py-2 px-4">
+                  <p className="text-[#37415]">10m ago</p>
+                </td>
                 <td className="py-2 px-4 ">
                   <button className="text-[#eef2ff] bg-[#4f46e5] hover:bg-[#4338ca] px-2 py-1 rounded-lg">
                     See Details
@@ -175,6 +184,9 @@ const DashHome = () => {
                     Added a Product
                   </span>
                 </td>
+                <td className="py-2 px-4">
+                  <p className="text-[#37415]">7m ago</p>
+                </td>
                 <td className="py-2 px-4 ">
                   <button className="text-[#eef2ff] bg-[#4f46e5] hover:bg-[#4338ca] px-2 py-1 rounded-lg">
                     See Details
@@ -187,6 +199,9 @@ const DashHome = () => {
                   <span className="bg-gray-200 px-2 py-1 rounded-lg">
                     Added a Product
                   </span>
+                </td>
+                <td className="py-2 px-4">
+                  <p className="text-[#37415]">9m ago</p>
                 </td>
                 <td className="py-2 px-4 ">
                   <button className="text-[#eef2ff] bg-[#4f46e5] hover:bg-[#4338ca] px-2 py-1 rounded-lg">
@@ -202,9 +217,9 @@ const DashHome = () => {
           <ResponsiveContainer width="100%" height={240}>
             <PieChart>
               <Pie
-                data={data1} // Change data prop to data1 for the PieChart
-                nameKey="name" // Correctly specify nameKey to match your data structure
-                dataKey="value" // Correctly specify dataKey to match your data structure
+                data={data1}
+                nameKey="name"
+                dataKey="value"
                 innerRadius={85}
                 outerRadius={110}
                 cx="40%"
@@ -213,8 +228,8 @@ const DashHome = () => {
               >
                 {data1.map((entry, index) => (
                   <Cell
-                    key={`cell-${index}`} // Update key prop to a unique value
-                    fill={COLORS[index % COLORS.length]} // Use COLORS array for fill
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
                   />
                 ))}
               </Pie>
@@ -231,7 +246,7 @@ const DashHome = () => {
           </ResponsiveContainer>
         </div>
       </div>
-      <div className="bg-white mb-5 pt-5 border rounded-xl mt-5">
+      <div className="bg-white mb-14 pt-5 border rounded-xl mt-5">
         <h1 className="text-[#374151] text-xl font-semibold pb-5 pl-5">
           Sales Summary
         </h1>

@@ -13,13 +13,20 @@ app.use(express.json());
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+    cors({
+        origin: ["http://localhost:5173"],
+        credentials: true,
+    })
+);
 
 // routes
 const userRoute = require("./routes/userRoute.js");
+const productRoute = require("./routes/productRoute.js")
 
 // routes middlewares
 app.use("/api/v1/users", userRoute);
+app.use("/api/v1/products", productRoute);
 
 app.get("/", (req, res) => {
     res.send("Inventory management is running");

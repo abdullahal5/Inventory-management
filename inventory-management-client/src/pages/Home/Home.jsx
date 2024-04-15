@@ -1,21 +1,61 @@
 import { Link } from "react-router-dom";
 import gif from "/__.gif";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import FindUser from "../../hooks/FindUser";
+import { signOut } from "firebase/auth";
+import { logout, toggleLoading } from "../../redux/features/auth/authSlice";
+import auth from "../../firebase.config";
 
 const Home = () => {
+  const [findUser, setFindUser] = useState(null);
+  const dispatch = useDispatch();
+  const { email, isLoading } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const GetData = async () => {
+      const userData = await FindUser({ email });
+      setFindUser(userData);
+    };
+    GetData();
+    // dispatch(toggleLoading(false))
+  }, [email, dispatch]);
+
+  const handleLogout = () => {
+    signOut(auth);
+    dispatch(logout());
+  };
+
+  console.log(email)
+
   return (
     <div className="min-h-screen">
       <div className="text-white flex items-center justify-between pt-10">
         <h1 className="text-3xl">Inventory App</h1>
+        <h1 className="text-3xl">
+          Welcome, <span className="text-yellow-600">{findUser?.name}</span>
+        </h1>
         <div className="flex items-center gap-3">
-          <Link
-            to="/login"
-            className="border px-3 py-2 border-blue-600 rounded-xl"
-          >
-            Login
-          </Link>
-          <Link to="/register" className="bg-blue-600 px-3 py-2 rounded-xl">
-            Register
-          </Link>
+          {findUser?.email === email ? (
+            <button
+              onClick={handleLogout}
+              className="border px-3 py-2 rounded-xl"
+            >
+              Logout
+            </button>
+          ) : (
+            <div className="flex items-center gap-5">
+              <Link
+                to="/login"
+                className="border px-3 py-2 border-blue-600 rounded-xl"
+              >
+                Login
+              </Link>
+              <Link to="/register" className="bg-blue-600 px-3 py-2 rounded-xl">
+                Register
+              </Link>
+            </div>
+          )}
         </div>
       </div>
       <div className="flex items-center h-[80vh] justify-center gap-20">
@@ -42,6 +82,13 @@ const Home = () => {
               <span className="text-3xl">500+</span>
               <span className="text-xl">Partners</span>
             </div>
+          </div>
+          <div className=" pt-10">
+            <Link to="/dashboard">
+              <button className="bg-green-500 px-4 py-2 rounded-xl text-white text-xl font-semibold">
+                Dashboard
+              </button>
+            </Link>
           </div>
         </div>
         <div className="">

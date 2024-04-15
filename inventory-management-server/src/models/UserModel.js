@@ -24,12 +24,12 @@ const userScema = mongoose.Schema(
             minLength: [6, "Password must be up to 6 characters"],
             // maxLength: [23, "Password must not be more than 23 characters"],
         },
-        Photo: {
+        photo: {
             type: String,
             required: [true, "Photo is required"],
             default: "https://i.ibb.co/4pDNDk1/avatar.png",
         },
-        Phone: {
+        phone: {
             type: String,
             required: [true, "Phone is required"],
             default: "+8801914049327",

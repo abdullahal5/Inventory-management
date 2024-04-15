@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { signOut } from "firebase/auth";
 import { Link, NavLink } from "react-router-dom";
+import auth from "../firebase.config";
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/features/auth/authSlice";
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch()
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+  const handleLogout = () => {
+    signOut(auth);
+    dispatch(logout())
   };
+
   return (
-    <div className="w-64 border px-10 py-12 h-screen bg-white">
+    <div className="w-64 border px-10 py-12 h-screen bg-white overflow-y-hidden">
       <Link to="/">
         <h1 className="text-2xl font-bold text-center">Inventory App</h1>
       </Link>
@@ -40,57 +45,11 @@ const Sidebar = () => {
                   ? "text-orange-500 items-center flex gap-2"
                   : "items-center flex gap-2"
               }
-              to="/addProduct"
+              to="allProuduct"
             >
-              Add Product
+              All Product
             </NavLink>
           </h1>
-        </li>
-        <li className=" rounded-xl">
-          <h1
-            className="text-xl font-semibold items-center flex justify-start gap-2 py-2 px-5 text-black cursor-pointer"
-            onClick={toggleDropdown}
-          >
-            account
-          </h1>
-          <div className="pl-5">
-            {isOpen && (
-              <ul className="sub-nav">
-                <li className="hover:bg-gray-200 rounded-xl">
-                  <h1 className="text-lg font-semibold items-center flex justify-start gap-2 py-2 px-5 text-black">
-                    <NavLink
-                      className={({ isActive, isPending }) =>
-                        isPending
-                          ? "pending"
-                          : isActive
-                          ? "text-orange-500 items-center flex gap-2"
-                          : "items-center flex gap-2"
-                      }
-                      to="/addProduct"
-                    >
-                      Profile
-                    </NavLink>
-                  </h1>
-                </li>
-                <li className="hover:bg-gray-200 rounded-xl">
-                  <h1 className="text-lg font-semibold items-center flex justify-start gap-2 py-2 px-5 text-black">
-                    <NavLink
-                      className={({ isActive, isPending }) =>
-                        isPending
-                          ? "pending"
-                          : isActive
-                          ? "text-orange-500 items-center flex gap-2"
-                          : "items-center flex gap-2"
-                      }
-                      to="/addProduct"
-                    >
-                      Edit Profile
-                    </NavLink>
-                  </h1>
-                </li>
-              </ul>
-            )}
-          </div>
         </li>
         <li className="hover:bg-gray-200 rounded-xl">
           <h1 className="text-xl font-semibold items-center flex justify-start gap-2 py-2 px-5 text-black">
@@ -102,10 +61,48 @@ const Sidebar = () => {
                   ? "text-orange-500 items-center flex gap-2"
                   : "items-center flex gap-2"
               }
-              to="/sample"
+              to="addProduct"
+            >
+              Add Product
+            </NavLink>
+          </h1>
+        </li>
+        <li className="hover:bg-gray-200 rounded-xl">
+          <h1 className="text-xl font-semibold items-center flex justify-start gap-2 py-2 px-5 text-black">
+            <NavLink
+              className={({ isActive, isPending }) =>
+                isPending
+                  ? "pending"
+                  : isActive
+                  ? "text-orange-500 items-center flex gap-2"
+                  : "items-center flex gap-2"
+              }
+              to="profile"
+            >
+              Profile
+            </NavLink>
+          </h1>
+        </li>
+        <li className=" rounded-xl"></li>
+        <li className="hover:bg-gray-200 rounded-xl">
+          <h1 className="text-xl font-semibold items-center flex justify-start gap-2 py-2 px-5 text-black">
+            <NavLink
+              className={({ isActive, isPending }) =>
+                isPending
+                  ? "pending"
+                  : isActive
+                  ? "text-orange-500 items-center flex gap-2"
+                  : "items-center flex gap-2"
+              }
+              to="report"
             >
               Report Bug
             </NavLink>
+          </h1>
+        </li>
+        <li className="hover:bg-gray-200 rounded-xl">
+          <h1 className="text-xl font-semibold items-center flex justify-start gap-2 py-2 px-5 text-black">
+            <button onClick={handleLogout}>Log out</button>
           </h1>
         </li>
       </ul>

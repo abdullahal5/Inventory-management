@@ -3,11 +3,11 @@ import Sidebar from "../../components/Sidebar";
 
 const Dashboard = () => {
   return (
-    <div className="flex bg-[#F9FAFB] ">
+    <div className="flex bg-[#F9FAFB] overflow-y-hidden h-screen">
       <div>
         <Sidebar />
       </div>
-      <div className="pt-8 w-[1200px] mx-auto">
+      <div className="pt-8 w-[1200px] mx-auto overflow-y-scroll">
         <Outlet />
       </div>
     </div>
