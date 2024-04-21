@@ -10,6 +10,8 @@ import Allproduct from "../pages/allProduct/Allproduct";
 import Register from "../pages/Register/Register";
 import Login from "../pages/login/Login";
 import PrivateRoute from "./private/PrivateRoute";
+import DynamicProducts from "../pages/dynamicProductDetailspage/DynamicProducts";
+import Update from "../pages/update/Update";
 
 const router = createBrowserRouter([
   {
@@ -93,6 +95,23 @@ const router = createBrowserRouter([
             <Allproduct />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "allProduct/itemDetails/:id",
+        element: <DynamicProducts />,
+        loader: async ({ params }) => {
+          const response = await fetch(
+            `http://localhost:5000/api/v1/products/getProductById/${params.id}`
+          );
+          if (!response.ok) {
+            throw new Error("Failed to fetch product data");
+          }
+          return response.json();
+        },
+      },
+      {
+        path: "allProduct/updateContent/:id",
+        element: <Update />,
       },
     ],
   },

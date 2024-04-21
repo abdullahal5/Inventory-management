@@ -18,7 +18,7 @@ const productSchema = new mongoose.Schema(
             trim: true,
         },
         quantity: {
-            type: String,
+            type: Number,
             required: [true, "please add quantity"],
             trim: true,
         },
@@ -29,10 +29,9 @@ const productSchema = new mongoose.Schema(
         },
         description: {
             type: String,
-            required: [true, "please add description"],
             trim: true,
         },
-        image: {
+        images: {
             type: [String],
             default: [],
         },
