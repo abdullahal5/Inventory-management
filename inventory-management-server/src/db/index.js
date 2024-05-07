@@ -15,3 +15,4 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+// mongodb+srv://Inventory-Management:RHKjFEmPZB6wyA71@cluster0.zelnjpd.mongodb.net/?retryWrites=true&w=majority

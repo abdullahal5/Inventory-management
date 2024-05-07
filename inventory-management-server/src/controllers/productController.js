@@ -1,7 +1,6 @@
 const Product = require("../models/ProductModel");
 const ApiError = require("../utils/ApiError");
 const ApiResponse = require("../utils/ApiResponse");
-const uploadOnCloudinary = require("../utils/cloudinary");
 
 const createProduct = async (req, res) => {
     const { name, category, quantity, price, description, images, user } =
@@ -42,12 +41,29 @@ const createProduct = async (req, res) => {
 // getAllProduct
 const getAllProduct = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 6;
-        const startIndex = (page - 1) * limit;
+        const itemPerPage = parseInt(req.query.item);
+        const page = parseInt(req.query.page);
+        const skip = (page - 1) * itemPerPage;
 
-        const products = await Product.find().skip(startIndex).limit(limit);
-        res.send(products);
+        const totalItems = await Product.countDocuments();
+        const totalPages = Math.ceil(totalItems / itemPerPage);
+
+        const products = await Product.find().skip(skip).limit(itemPerPage);
+
+        const startIndex = (page - 1) * itemPerPage + 1;
+
+        const productIndex = products.map((item, idx) => ({
+            ...item,
+            id: startIndex + idx,
+        }));
+
+        const productData = {
+            currentPage: page,
+            totalPages: totalPages,
+            data: productIndex,
+        };
+
+        res.status(200).json(new ApiResponse(200, productData));
     } catch (error) {
         throw new ApiError(
             400,

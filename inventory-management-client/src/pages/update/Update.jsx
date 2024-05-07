@@ -21,7 +21,7 @@ const Update = () => {
   useEffect(() => {
     const getData = async () => {
       const response = await axiosPublic.get(`/api/v1/products/getAllproduct`);
-      setData(response?.data.find((item) => item?._id === params?.id));
+      setData(response?.data?.data?.data.find((item) => item?._id === params?.id));
       setLoading(false);
     };
     getData();

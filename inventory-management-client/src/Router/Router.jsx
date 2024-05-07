@@ -101,7 +101,7 @@ const router = createBrowserRouter([
         element: <DynamicProducts />,
         loader: async ({ params }) => {
           const response = await fetch(
-            `http://localhost:5000/api/v1/products/getProductById/${params.id}`
+            `https://inventory-management-server-beta.vercel.app/api/v1/products/getProductById/${params.id}`
           );
           if (!response.ok) {
             throw new Error("Failed to fetch product data");

@@ -15,14 +15,18 @@ const Allproduct = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemPerPage] = useState(6);
   const [update, setUpdate] = useState(Date.now());
+  const [dataInfo, setDataInfo] = useState({});
 
   const getData = async () => {
     const response = await axiosPublic.get(
-      `/api/v1/products/getAllproduct?page=${currentPage}&limit=${itemPerPage}`
+      `/api/v1/products/getAllproduct?page=${currentPage}&item=${itemPerPage}`
     );
-    setData(response.data);
+    setData(response.data.data.data);
     setLoading(false);
+    setDataInfo(response.data.data);
   };
+
+  console.log(dataInfo.data.length);
 
   useEffect(() => {
     getData();
@@ -110,7 +114,7 @@ const Allproduct = () => {
         ) {
           Swal.fire({
             title: "Deleted!",
-            text: "Your file has been deleted.",
+            text: "Your Product has been deleted.",
             icon: "success",
           });
           setUpdate(Date.now());
@@ -159,7 +163,7 @@ const Allproduct = () => {
         </div>
       ) : (
         <div className="relative overflow-x-auto sm:rounded-lg mt-10">
-          {data.length > 0 ? (
+          {data?.length > 0 ? (
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border-t border-l border-r">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -187,24 +191,24 @@ const Allproduct = () => {
                 </tr>
               </thead>
               <tbody>
-                {data?.map((item, idx) => (
+                {data?.map((item) => (
                   <tr
-                    key={item?._id}
+                    key={item?.id}
                     className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
                   >
                     <th
                       scope="row"
                       className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                     >
-                      {idx + 1}
+                      {item.id}
                     </th>
-                    <td className="px-6 py-4">{item?.name}</td>
-                    <td className="px-6 py-4">{item?.category}</td>
-                    <td className="px-6 py-4">${item?.price}</td>
-                    <td className="px-6 py-4">{item?.quantity}</td>
+                    <td className="px-6 py-4">{item?._doc.name}</td>
+                    <td className="px-6 py-4">{item?._doc.category}</td>
+                    <td className="px-6 py-4">${item?._doc.price}</td>
+                    <td className="px-6 py-4">{item?._doc.quantity}</td>
                     <td className="px-6 py-4">
                       <Link
-                        to={`/dashboard/allProduct/itemDetails/${item?._id}`}
+                        to={`/dashboard/allProduct/itemDetails/${item?._doc._id}`}
                       >
                         <button className="text-[#eef2ff] bg-[#4f46e5] hover:bg-[#4338ca] px-2 py-1 rounded-lg">
                           See Details
@@ -214,14 +218,14 @@ const Allproduct = () => {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <Link
-                          to={`/dashboard/allProduct/updateContent/${item?._id}`}
+                          to={`/dashboard/allProduct/updateContent/${item?._doc._id}`}
                         >
                           <button className="text-sm bg-green-500 p-2 text-white rounded-lg hover:bg-green-600">
                             <RiEdit2Fill />
                           </button>
                         </Link>
                         <button
-                          onClick={() => handleDeleteProduct(item?._id)}
+                          onClick={() => handleDeleteProduct(item?._doc._id)}
                           className="text-sm bg-red-500 p-2 text-white rounded-lg hover:bg-red-600"
                         >
                           <MdDelete />
@@ -242,8 +246,10 @@ const Allproduct = () => {
       {data && (
         <div className="flex justify-between items-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b px-4 border-r border-l py-2">
           <p>
-            Showing 11 to 20 of{" "}
-            <strong className="font-extrabold">{data?.length}</strong> results
+            page <strong>{dataInfo?.currentPage}</strong> of{" "}
+            <strong>{dataInfo?.totalPages} </strong> of
+            (<strong className="font-extrabold"> {dataInfo.data.length}</strong> Total results )
+             
           </p>
           <div className="flex items-center gap-3 justify-center">
             <button

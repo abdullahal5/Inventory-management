@@ -134,10 +134,13 @@ const AddProduct = () => {
 
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/v1/products/addProduct",
+          "https://inventory-management-server-beta.vercel.app/api/v1/products/addProduct",
           data
         );
-        if (response.status === 200 && response.statusText === "OK") {
+        if (
+          response.data.statusCode === 200 &&
+          response.data.success === true
+        ) {
           toast.success("Product Added Successfully");
           setImageUrl("");
           e.target.reset();
